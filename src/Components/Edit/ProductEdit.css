@@ -1,0 +1,66 @@
+.edit-bar{
+    width: 100%;
+    height: 20vh;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+    align-content: stretch;
+    border-bottom: solid;
+    border-color: gray;
+}
+.left{
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: flex-start;
+	align-content: stretch;
+    height: 100%;
+    width: 55%;
+    padding-left: 10px;
+}
+.right{
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: flex-start;
+	align-content: stretch;
+    height: 100%;
+    width: 35%;
+}
+.trash{
+    height: 100%;
+    width: 10%;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: stretch;
+}
+.fields{
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: flex-start;
+    align-content: stretch;
+    font-family: 'Noto Sans KR', sans-serif;
+
+}
+input{
+    border:none;
+    height:25px;
+    font-size:15px;
+    text-align: center;
+    color: black;
+    border-bottom: solid;
+    border-color:black;
+    border-bottom-width: 1px;
+}
+.price{
+    width: 100px;
+}
