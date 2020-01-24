@@ -17,12 +17,17 @@ app.use(
   })
 );
 
+app.get("/api/get_edit/:user_id", getEdit);
+
+app.post("/auth/register", register);
+app.post("/auth/login", login);
+app.get("/auth/user_session", userSession);
+app.delete("/auth/logout", logout);
+
 massive(CONNECTION_STRING).then(db => {
   console.log("database connected");
   app.set("db", db);
 });
 
-
 let port = SERVER_PORT || 4001;
-app.listen(port, () => 
-console.log(`up and running on port ${port}`));
+app.listen(port, () => console.log(`up and running on port ${port}`));
