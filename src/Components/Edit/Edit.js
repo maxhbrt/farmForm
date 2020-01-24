@@ -18,6 +18,12 @@ class Edit extends Component {
     });
   };
 
+  handleReset = () => {
+    this.setState({
+      bars: []
+    })
+  }
+
   render() {
     return (
       <div className="edit-form">
@@ -31,7 +37,7 @@ class Edit extends Component {
         </div>
         <div className="footer">
           <button>SAVE</button>
-          <button  className="reset">RESET</button>
+          <button onClick={this.handleReset} className="reset">RESET</button>
         </div>
       </div>
     );
