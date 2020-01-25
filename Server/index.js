@@ -4,6 +4,17 @@ const app = express();
 const session = require("express-session");
 const massive = require("massive");
 
+const {
+    register,
+    logout,
+    userSession,
+    login
+} = require("./Controller/userController");
+
+const {
+    getEdit
+} = require("./Controller/editController");
+
 app.use(express.json());
 const { CONNECTION_STRING, SESSION_SECRET, SERVER_PORT } = process.env;
 app.use(
