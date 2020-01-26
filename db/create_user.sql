@@ -6,4 +6,4 @@ VALUES
 
 -- SELECT farm_name
 -- FROM users
--- WHERE email = $1;
+-- WHERE farm_name = $1;

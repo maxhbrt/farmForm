@@ -3,6 +3,7 @@ import "./Edit.css";
 import Roots from "./roots-logo.png";
 import ProductEdit from "./ProductEdit";
 import { MdAddCircle } from "react-icons/md";
+import axios from 'axios';
 
 class Edit extends Component {
   constructor(props) {
@@ -38,6 +39,13 @@ class Edit extends Component {
         <div className="footer">
           <button>SAVE</button>
           <button onClick={this.handleReset} className="reset">RESET</button>
+          <button
+          onClick={() => {
+            axios.delete("/auth/logout").then(() => {
+              {this.props.history.push('/register')}
+            })
+          }}
+          >LOGOUT</button>
         </div>
       </div>
     );
