@@ -9,19 +9,20 @@ class Register extends Component {
     this.state = {
       email: "",
       password: "",
-      farmName: "",
+      farm_name: "",
       register: false
     };
   }
 
   async register() {
-    const { email, password, farmName } = this.state;
+    const { email, password, farm_name } = this.state;
     const registeredUser = await axios.post("/auth/register", {
       email,
       password,
-      farmName
+      farm_name
     });
-    this.props.user(registeredUser.data);
+    
+    // this.props.user(registeredUser.data);
     if (registeredUser) {
       this.props.history.push("/edit");
     }
@@ -36,12 +37,13 @@ class Register extends Component {
         email,
         password
       });
-      this.props.user(loggedInUser.data);
+      // this.props.user(loggedInUser.data);
       this.props.history.push("/edit");
     }
   }
 
   render() {
+    const { email, farm_name, password} = this.state;
     return (
       <div className="register-back">
         {!this.state.register ? (
@@ -92,9 +94,10 @@ class Register extends Component {
               <h4>Farm Name</h4>
               <input
                 type="text"
+                value={farm_name}
                 onChange={e =>
                   this.setState({
-                    farmName: e.target.value
+                    farm_name: e.target.value
                   })
                 }
               />
@@ -103,6 +106,7 @@ class Register extends Component {
               <h4>Email</h4>
               <input
                 type="text"
+                value={email}
                 onChange={e =>
                   this.setState({
                     email: e.target.value
@@ -114,6 +118,7 @@ class Register extends Component {
               <h4>Password</h4>
               <input
                 type="password"
+                value={password}
                 onChange={e =>
                   this.setState({
                     password: e.target.value
