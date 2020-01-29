@@ -32,6 +32,7 @@ app.use(
 app.get("/api/get_edit/:user_id", getEdit);
 app.post("/api/post_edit", addToEdit);
 
+
 app.post("/auth/register", register);
 app.post("/auth/login", login);
 app.get("/auth/user_session", userSession);

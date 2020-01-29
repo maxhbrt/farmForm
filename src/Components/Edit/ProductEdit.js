@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import "./ProductEdit.css";
 import { TiDelete } from "react-icons/ti";
-import axios from "axios";
+import axios from 'axios';
+
 
 class ProductEdit extends Component {
   constructor(props) {
@@ -9,20 +10,29 @@ class ProductEdit extends Component {
     this.state = {
       name: "",
       unit: "",
-      price: 0,
-      avail: 0
+      price: "" ,
+      avail: "" 
     };
   }
 
-  addToEdit = async (user_id, name, unit, price, avail) => {
-    const addedEdit = await axios.post("/api/post_edit", {
-      user_id,
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value});
+  }
+
+  addToEdit = async ( e ) => {
+    // e.preventDefault();
+    var { name, unit, price, avail} = this.state;
+    price = price*1
+    avail = avail*1
+    await axios.post("/api/post_edit", {
+     
       name,
       unit,
       price,
       avail
     });
   };
+
 
   render() {
     const { name, unit, price, avail } = this.state;
@@ -33,24 +43,18 @@ class ProductEdit extends Component {
             <h1>Product</h1>
             <input
               type="text"
+              name = "name"
               value={name}
-              onChange={e => {
-                this.setState({
-                  name: e.target.value
-                });
-              }}
+              onChange={ this.onChange }
             ></input>
           </div>
           <div className="fields">
             <h1>Unit</h1>
             <input
               type="text"
+              name="unit"
               value={unit}
-              onChange={e => {
-                this.setState({
-                  unit: e.target.value
-                });
-              }}
+              onChange={this.onChange}
             ></input>
           </div>
         </div>
@@ -61,13 +65,10 @@ class ProductEdit extends Component {
               $
               <input
                 className="price"
-                type="number"
+                type="text"
+                name="price"
                 value={price}
-                onChange={e => {
-                  this.setState({
-                    price: e.target.value
-                  });
-                }}
+                onChange={this.onChange}
               ></input>
             </div>
           </div>
@@ -75,13 +76,10 @@ class ProductEdit extends Component {
             <h1>Available</h1>
             <input
               className="price"
-              type="number"
+              type="text"
+              name="avail"
               value={avail}
-              onChange={e => {
-                this.setState({
-                  avail: e.target.value
-                });
-              }}
+              onChange={this.onChange}
             ></input>
           </div>
         </div>

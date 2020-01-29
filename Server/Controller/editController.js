@@ -8,7 +8,8 @@ module.exports = {
   },
   addToEdit: async (req, res, next) => {
     const db = req.app.get("db");
-    const { user_id, name, unit, price, avail } = req.body;
+    const { user_id } = req.session.user
+    const { name, unit, price, avail } = req.body;
 
     const edits = await db.add_edit([user_id, name, unit, price, avail]);
     res.status(200).send(edits);

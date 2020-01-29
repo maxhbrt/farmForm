@@ -4,14 +4,23 @@ import Roots from "./roots-logo.png";
 import ProductEdit from "./ProductEdit";
 import { MdAddCircle } from "react-icons/md";
 import axios from 'axios';
+import { withRouter } from "react-router-dom";
 
 class Edit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      bars: []
+      bars: [],
+     
     };
   }
+
+triggerChild = () => {
+  this.refs.child.addToEdit();
+}
+
+
+
   handleAnotherBar = () => {
     const { bars } = this.state;
     this.setState({
@@ -26,23 +35,31 @@ class Edit extends Component {
   }
 
   render() {
+    
     return (
       <div className="edit-form">
         <div className="head">
           <img className="logo" src={Roots} />
         </div>
-        <ProductEdit />
+        <ProductEdit 
+        ref="child"
+     
+        />
         {[...this.state.bars]}
         <div style={{ color: "green" }} className="add">
           <MdAddCircle onClick={this.handleAnotherBar} size={40} />
         </div>
         <div className="footer">
-          <button>SAVE</button>
-          <button onClick={this.handleReset} className="reset">RESET</button>
+          <button
+          onClick={() => {
+            this.triggerChild()
+          }}
+          >SAVE</button>
+          <button  className="reset">RESET</button>
           <button
           onClick={() => {
             axios.delete("/auth/logout").then(() => {
-              {this.props.history.push('/register')}
+              {this.props.history.push('/')}
             })
           }}
           >LOGOUT</button>
@@ -52,4 +69,4 @@ class Edit extends Component {
   }
 }
 
-export default Edit;
+export default withRouter(Edit);
