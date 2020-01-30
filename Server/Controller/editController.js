@@ -13,5 +13,12 @@ module.exports = {
 
     const edits = await db.add_edit([user_id, name, unit, price, avail]);
     res.status(200).send(edits);
+  },
+  deleteFromEdit: async (req, res, next) => {
+    const { item_id } = req.params
+    const { user_id } = req.session.user
+    const db = req.app.get("db");
+    const results = await db.delete_from_edit([item_id, user_id])
+    res.status(200).send(results);
   }
 };

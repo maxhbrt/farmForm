@@ -15,19 +15,20 @@ class Edit extends Component {
     };
   }
 
-triggerChild = () => {
-  this.refs.child.addToEdit();
-}
 
 
 
-  handleAnotherBar = () => {
+
+  handleAnotherBar = (e) => {
+    // e.preventDefault();
     const { bars } = this.state;
     this.setState({
-      bars: bars.concat(<ProductEdit>{bars.length}</ProductEdit>)
+      bars: bars.concat(<ProductEdit
+      handleAnotherBar={this.handleAnotherBar}
+      >{bars.length}</ProductEdit>)
     });
   };
-
+  
   handleReset = () => {
     this.setState({
       bars: []
@@ -42,20 +43,20 @@ triggerChild = () => {
           <img className="logo" src={Roots} />
         </div>
         <ProductEdit 
-        ref="child"
+        handleAnotherBar={this.handleAnotherBar}
      
         />
-        {[...this.state.bars]}
+        {[...this.state.bars] }
         <div style={{ color: "green" }} className="add">
-          <MdAddCircle onClick={this.handleAnotherBar} size={40} />
-        </div>
+            <MdAddCircle onClick={this.handleAnotherBar} size={35} />
+          </div>
         <div className="footer">
           <button
           onClick={() => {
-            this.triggerChild()
+            
           }}
           >SAVE</button>
-          <button  className="reset">RESET</button>
+          <button className="reset">RESET</button>
           <button
           onClick={() => {
             axios.delete("/auth/logout").then(() => {
