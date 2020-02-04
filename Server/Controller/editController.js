@@ -16,9 +16,15 @@ module.exports = {
   },
   deleteFromEdit: async (req, res, next) => {
     const { item_id } = req.params
-    const { user_id } = req.session.user
+    
     const db = req.app.get("db");
-    const results = await db.delete_from_edit([item_id, user_id])
+    const results = await db.delete_from_edit([item_id])
     res.status(200).send(results);
+  },
+  deleteAllEdit: async (req, res, next) => {
+    const { user_id } =  req.session.user
+    const db = req.app.get("db")
+    const results = await db.delete_all_items([user_id])
+    res.status(200).send(results)
   }
 };

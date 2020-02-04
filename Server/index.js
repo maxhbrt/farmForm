@@ -14,7 +14,8 @@ const {
 const {
     getEdit,
     addToEdit,
-    deleteFromEdit
+    deleteFromEdit,
+    deleteAllEdit
 } = require("./Controller/editController");
 
 app.use(express.json());
@@ -30,10 +31,10 @@ app.use(
   })
 );
 
-app.get("/api/get_edit/:user_id", getEdit);
+app.get("/api/get_edit", getEdit);
 app.post("/api/post_edit", addToEdit);
-app.delete("/api/delete_from_edit", deleteFromEdit);
-
+app.delete("/api/delete_from_edit/:item_id", deleteFromEdit);
+app.delete("/api/delete_all_edit", deleteAllEdit);
 
 app.post("/auth/register", register);
 app.post("/auth/login", login);

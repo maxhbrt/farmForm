@@ -3,7 +3,7 @@ import "./Edit.css";
 import Roots from "./roots-logo.png";
 import ProductEdit from "./ProductEdit";
 import { MdAddCircle } from "react-icons/md";
-import axios from 'axios';
+import axios from "axios";
 import { withRouter } from "react-router-dom";
 
 class Edit extends Component {
@@ -11,59 +11,83 @@ class Edit extends Component {
     super(props);
     this.state = {
       bars: [],
-     
+      display: true,
+      items: []
     };
   }
 
-
-
-
-
-  handleAnotherBar = (e) => {
+  handleAnotherBar = e => {
     // e.preventDefault();
     const { bars } = this.state;
     this.setState({
-      bars: bars.concat(<ProductEdit
-      handleAnotherBar={this.handleAnotherBar}
-      >{bars.length}</ProductEdit>)
+      bars: bars.concat(
+        <ProductEdit handleAnotherBar={this.handleAnotherBar}>
+          {bars.length}
+        </ProductEdit>
+      )
+    });
+    this.setState({
+      display: true
     });
   };
-  
-  handleReset = () => {
-    this.setState({
-      bars: []
-    })
+
+  getAllEdit = () => {
+    axios.get("/api/get_edit").then(response => {
+      this.setState({items: response.data});
+    });
   }
 
+  deleteAllEdit = () => {
+    const { bars } = this.state;
+    axios.delete(`/api/delete_all_edit`);
+    this.setState({
+      bars: []
+    });
+    this.setState({
+      display: false
+    });
+  };
+
   render() {
-    
+    const { items } =  this.state;
+
+    const savedItems = items.map(item => {
+      return (
+        <>
+        <ProductEdit
+        name={item.name}
+        unit={item.unit}
+        price={item.price}
+        avail={item.avail}
+        />
+        </>
+      )
+    })
     return (
       <div className="edit-form">
         <div className="head">
           <img className="logo" src={Roots} />
         </div>
-        <ProductEdit 
-        handleAnotherBar={this.handleAnotherBar}
-     
-        />
-        {[...this.state.bars] }
+        {savedItems}
+        {[...this.state.bars]}
         <div style={{ color: "green" }} className="add">
-            <MdAddCircle onClick={this.handleAnotherBar} size={35} />
-          </div>
+          <MdAddCircle onClick={this.handleAnotherBar} size={35} />
+        </div>
         <div className="footer">
+          <button className="reset" onClick={this.deleteAllEdit}>
+            RESET
+          </button>
           <button
-          onClick={() => {
-            
-          }}
-          >SAVE</button>
-          <button className="reset">RESET</button>
-          <button
-          onClick={() => {
-            axios.delete("/auth/logout").then(() => {
-              {this.props.history.push('/')}
-            })
-          }}
-          >LOGOUT</button>
+            onClick={() => {
+              axios.delete("/auth/logout").then(() => {
+                {
+                  this.props.history.push("/");
+                }
+              });
+            }}
+          >
+            LOGOUT
+          </button>
         </div>
       </div>
     );
