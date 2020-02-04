@@ -18,6 +18,20 @@ class ProductEdit extends Component {
     };
   }
 
+  componentDidMount() {
+    this.mapProps();
+  }
+
+  mapProps = () => {
+    this.setState({
+      name: this.props.name,
+      unit: this.props.unit,
+      price: this.props.price,
+      avail: this.props.avail,
+      edit: false
+    });
+  };
+
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
@@ -85,7 +99,6 @@ class ProductEdit extends Component {
   };
 
   render() {
-
     const { name, unit, price, avail } = this.state;
     return (
       <>
@@ -123,7 +136,6 @@ class ProductEdit extends Component {
               <div className="fields">
                 <h1>Price Per Unit</h1>
                 <div>
-                  
                   {!this.state.edit ? (
                     <h2>${this.state.price}</h2>
                   ) : (

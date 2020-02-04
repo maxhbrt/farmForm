@@ -16,6 +16,11 @@ class Edit extends Component {
     };
   }
 
+  componentDidMount(){
+    this.getAllEdit()
+
+  }
+
   handleAnotherBar = e => {
     // e.preventDefault();
     const { bars } = this.state;
@@ -29,10 +34,13 @@ class Edit extends Component {
     this.setState({
       display: true
     });
+    
   };
 
   getAllEdit = () => {
+
     axios.get("/api/get_edit").then(response => {
+      console.log(response)
       this.setState({items: response.data});
     });
   }
