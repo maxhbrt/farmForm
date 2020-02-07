@@ -5,6 +5,7 @@ import ProductEdit from "./ProductEdit";
 import { MdAddCircle } from "react-icons/md";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
+import { syncLoader, PulseLoader } from "react-spinners";
 
 class Edit extends Component {
   constructor(props) {
@@ -12,13 +13,19 @@ class Edit extends Component {
     this.state = {
       bars: [],
       display: true,
-      items: []
+      items: [],
+      isLoading: true
     };
   }
 
-  componentDidMount(){
-    this.getAllEdit()
-
+  componentWillMount() {
+    console.log(this.savedItems)
+    this.getAllEdit();
+    setTimeout(() => {
+      this.setState({
+        isLoading: false
+      });
+    }, 2000);
   }
 
   handleAnotherBar = e => {
@@ -34,16 +41,14 @@ class Edit extends Component {
     this.setState({
       display: true
     });
-    
   };
 
   getAllEdit = () => {
-
     axios.get("/api/get_edit").then(response => {
-      console.log(response)
-      this.setState({items: response.data});
+      console.log(response);
+      this.setState({ items: response.data });
     });
-  }
+  };
 
   deleteAllEdit = () => {
     const { bars } = this.state;
@@ -57,30 +62,41 @@ class Edit extends Component {
   };
 
   render() {
-    const { items } =  this.state;
+    const { items } = this.state;
 
     const savedItems = items.map(item => {
       return (
         <>
-        <ProductEdit
-        name={item.name}
-        unit={item.unit}
-        price={item.price}
-        avail={item.avail}
-        />
+          <ProductEdit
+          
+            items={item.item_id}
+            name={item.name}
+            unit={item.unit}
+            price={item.price}
+            avail={item.avail}
+          />
         </>
-      )
-    })
+      );
+    });
     return (
+      
       <div className="edit-form">
         <div className="head">
           <img className="logo" src={Roots} />
         </div>
-        {savedItems}
-        {[...this.state.bars]}
-        <div style={{ color: "green" }} className="add">
-          <MdAddCircle onClick={this.handleAnotherBar} size={35} />
-        </div>
+        {this.state.isLoading ? (
+          <div className="loader">
+            <PulseLoader size={50}  />
+          </div>
+        ) : (
+          <>
+            {savedItems}
+            {[...this.state.bars]}
+            <div style={{ color: "green" }} className="add">
+              <MdAddCircle onClick={this.handleAnotherBar} size={35} />
+            </div>
+          </>
+        )}
         <div className="footer">
           <button className="reset" onClick={this.deleteAllEdit}>
             RESET

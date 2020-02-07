@@ -4,6 +4,7 @@ import { TiDelete } from "react-icons/ti";
 import axios from "axios";
 import { GiSaveArrow } from "react-icons/gi";
 import { FaEdit } from "react-icons/fa";
+
 class ProductEdit extends Component {
   constructor(props) {
     super(props);
@@ -13,24 +14,57 @@ class ProductEdit extends Component {
       price: "",
       avail: "",
       edit: true,
-      items: [],
+      items: 0,
       delete: false
     };
+
   }
 
-  componentDidMount() {
+  componentWillMount = () => {
+    
+    
     this.mapProps();
   }
 
   mapProps = () => {
-    this.setState({
-      name: this.props.name,
-      unit: this.props.unit,
-      price: this.props.price,
-      avail: this.props.avail,
-      edit: false
-    });
+    this.setState(
+      {
+        items: this.props.items,
+        name: this.props.name,
+        unit: this.props.unit,
+        price: this.props.price,
+        avail: this.props.avail
+      },
+      () => {
+        // this.editMap();
+        if (this.state.name || this.state.unit || this.state.price || this.state.avail) {
+          this.setState({
+            edit: false
+          });
+        }else{
+          this.setState({
+            edit: true
+          });
+        }
+      }
+    );
   };
+
+  editMap = () => {
+    
+    if (!this.state.name === "") {
+      this.setState({
+        edit: false
+      });
+    }
+    console.log(this.state.edit);
+    console.log(this.state.name);
+  };
+
+  // handleMap = () => {
+  //    this.mapProps(() => this.editMap())
+
+  // }
 
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -52,6 +86,9 @@ class ProductEdit extends Component {
     e.preventDefault();
     var { name, unit, price, avail } = this.state;
     if (name === "" || unit === "" || price === "" || avail === "") {
+      this.setState({
+        edit: true
+      })
     } else {
       price = price * 1;
       avail = avail * 1;
@@ -69,19 +106,21 @@ class ProductEdit extends Component {
     }
   };
 
-  deleteFromEdit = async () => {
-    console.log(this.state.items);
+  deleteFromEdit = async e => {
+    e.preventDefault();
+    
     if (this.state.items.length == false) {
       this.setState({
         delete: true
       });
     } else {
-      const item_id = this.state.items[0].item_id;
+      const item_id = this.state.items;
+      console.log(item_id);
       const deletedEdit = await axios.delete(
         `/api/delete_from_edit/${item_id}/`
       );
       this.setState({
-        items: []
+        items: 0
       });
     }
     this.setState({
@@ -92,7 +131,10 @@ class ProductEdit extends Component {
   saveAndAdd = e => {
     this.addToEdit(e);
     var { name, unit, price, avail } = this.state;
-    if (name === "" || unit === "" || price === "" || avail === "") {
+    if (! name || !unit || !price || !avail ) {
+      this.setState({
+        edit:true
+      })
     } else {
       this.changeInput();
     }
@@ -107,15 +149,20 @@ class ProductEdit extends Component {
             <div className="left">
               <div className="fields">
                 <h1>Product</h1>
-                {!this.state.edit ? (
-                  <h2>{this.state.name}</h2>
-                ) : (
+                {this.state.edit ? (
+
                   <input
                     type="text"
                     name="name"
                     value={name}
                     onChange={this.onChange}
                   ></input>
+
+
+
+
+                  ) : (
+                    <h2>{this.state.name}</h2>
                 )}
               </div>
               <div className="fields">
@@ -177,10 +224,15 @@ class ProductEdit extends Component {
               ) : null}
               {!this.state.edit ? (
                 <div style={{ color: "black" }}>
-                  <FaEdit onClick={this.trueInput} size={35} />
+                  <FaEdit onClick={this.trueInput} size={30} />
                 </div>
               ) : null}
-              <TiDelete onClick={this.deleteFromEdit} size={40} />
+              <TiDelete
+                onClick={e => {
+                  this.deleteFromEdit(e);
+                }}
+                size={40}
+              />
             </div>
           </div>
         ) : null}
