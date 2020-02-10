@@ -14,12 +14,12 @@ class Edit extends Component {
       bars: [],
       display: true,
       items: [],
-      isLoading: true
+      isLoading: true,
+      reset: false
     };
   }
 
   componentWillMount() {
-    console.log(this.savedItems)
     this.getAllEdit();
     setTimeout(() => {
       this.setState({
@@ -29,7 +29,6 @@ class Edit extends Component {
   }
 
   handleAnotherBar = e => {
-    // e.preventDefault();
     const { bars } = this.state;
     this.setState({
       bars: bars.concat(
@@ -39,14 +38,17 @@ class Edit extends Component {
       )
     });
     this.setState({
-      display: true
+      display: true,
+      reset: false
     });
   };
 
   getAllEdit = () => {
     axios.get("/api/get_edit").then(response => {
-      console.log(response);
       this.setState({ items: response.data });
+      this.setState({
+        reset: false
+      });
     });
   };
 
@@ -57,19 +59,21 @@ class Edit extends Component {
       bars: []
     });
     this.setState({
-      display: false
+      display: false,
+      reset: true
     });
   };
 
   render() {
-    const { items } = this.state;
-
+    var { items } = this.state;
+    if (this.state.reset) {
+      items = [];
+    }
     const savedItems = items.map(item => {
       return (
         <>
           <ProductEdit
-          
-            items={item.item_id}
+            item={item.item_id}
             name={item.name}
             unit={item.unit}
             price={item.price}
@@ -79,14 +83,13 @@ class Edit extends Component {
       );
     });
     return (
-      
       <div className="edit-form">
         <div className="head">
           <img className="logo" src={Roots} />
         </div>
         {this.state.isLoading ? (
           <div className="loader">
-            <PulseLoader size={50}  />
+            <PulseLoader size={50} />
           </div>
         ) : (
           <>
