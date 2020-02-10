@@ -56,6 +56,7 @@ class Edit extends Component {
     const { bars } = this.state;
     axios.delete(`/api/delete_all_edit`);
     this.setState({
+      items:[],
       bars: []
     });
     this.setState({
