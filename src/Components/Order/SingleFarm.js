@@ -9,12 +9,13 @@ class SingleFarm extends Component {
     this.state = {
       inventory: []
     };
+    this.getInventory()
   }
-  componentWillMount() {
+//   componentWillMount() {
 
-    this.getInventory();
+//     this.getInventory();
 
-  }
+//   }
 
   getInventory = () => {
     for (let i = 0; i < this.props.inventory.length; i++) {
