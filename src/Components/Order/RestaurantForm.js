@@ -40,11 +40,12 @@ class RestaurantForm extends Component {
     var farmProps = [];
     const singleFarmSections = inventory.map(farm => {
       if (farmProps.includes(farm.farm_name)) {
-          
       } else {
         farmProps.push(farm.farm_name);
-       
-        return <SingleFarm farmName={farm.farm_name} />;
+
+        return <SingleFarm farmName={farm.farm_name} 
+                inventory={inventory}
+        />;
       }
     });
 
