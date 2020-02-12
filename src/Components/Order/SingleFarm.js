@@ -10,7 +10,8 @@ class SingleFarm extends Component {
       inventory: []
     };
   }
-  componentDidMount() {
+  componentWillMount() {
+
     this.getInventory();
 
   }
@@ -24,9 +25,22 @@ class SingleFarm extends Component {
   };
 
   render() {
+   const {inventory} = this.state
+    const singleOrderItem = inventory.map(item => {
+        return(
+            <OrderField
+            item={item.item_id}
+            name={item.name}
+            unit={item.unit}
+            price={item.price}
+            /> 
+        )
+    })
+
     return (
       <div className="single-farm">
-        <div>{this.props.farmName}</div>
+          
+        {singleOrderItem}
       </div>
     );
   }

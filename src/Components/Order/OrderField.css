@@ -1,9 +1,10 @@
 .order-bar{
     width: 100vw;
-    height: 75px;
+    height: 100px;
     border-bottom: solid;
     border-color: gray;
     padding-top: 5px;
+    background-color: green;
 }
 .farm-title{
     font-size: 20px;
