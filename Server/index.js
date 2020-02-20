@@ -19,7 +19,12 @@ const {
   editEdit
 } = require("./Controller/editController");
 
-const { getOrderItems } = require("./Controller/orderController");
+const {
+  getOrderItems,
+  addClient,
+  editClient,
+  addOrder
+} = require("./Controller/orderController");
 
 app.use(express.json());
 const { CONNECTION_STRING, SESSION_SECRET, SERVER_PORT } = process.env;
@@ -41,6 +46,9 @@ app.delete("/api/delete_all_edit", deleteAllEdit);
 app.put("/api/edit_edit", editEdit);
 
 app.get("/api/get_order_items", getOrderItems);
+app.post("/api/add_client", addClient);
+app.put("/api/edit_client", editClient);
+app.post("/api/add_order", addOrder);
 
 app.post("/auth/register", register);
 app.post("/auth/login", login);

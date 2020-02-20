@@ -12,3 +12,14 @@ CREATE TABLE users(
     password TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL
 );
+CREATE TABLE clients(
+    client_id SERIAL PRIMARY KEY,
+    business_name TEXT NOT NULL
+    
+);
+CREATE TABLE orders(
+    order_item_id SERIAL PRIMARY KEY,
+    quan DECIMAL NOT NULL,
+    item_id INTEGER REFERENCES items(item_id),
+    business_name TEXT NOT NULL
+);
