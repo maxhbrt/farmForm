@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./OrderField.css";
 import { IoIosAddCircle } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,7 +13,8 @@ class OrderField extends Component {
       quan: "",
       edit: true,
       avail: "",
-      none: false
+      none: false,
+      order_item_id: ""
     };
   }
   componentDidMount() {
@@ -50,26 +52,52 @@ class OrderField extends Component {
     var { quan } = this.state;
     var avail = this.state.avail.toString();
     console.log(avail);
+    
     if (!this.state.quan) {
       this.setState({
         edit: true
       });
       console.log(this.state.edit);
-    } else if (this.state.avail < this.state.quan) {
+    }
+
+    else if (this.state.avail < this.state.quan) {
       toast(`There is only ${avail} ${unit} of ${name} left...`, {
         type: "error"
       });
-    } else {
-      const addedOrder = await axios.post("/api/add_order", {
-        quan,
-        item_id,
-        client_id
-      });
+    } 
+
+    else if (this.state.order_item_id) {
+      const { quan, order_item_id } = this.state;
+      const item_id = this.props.item;
+      await axios.put("/api/edit_quan", { quan, order_item_id, item_id });
+      this.setState({
+        edit: false
+      })
+    } 
+    else {
+      const addedOrder = await axios
+        .post("/api/add_order", {
+          quan,
+          item_id,
+          client_id
+        })
+        .then(response => {
+          this.setState({
+            order_item_id: response.data[0].order_item_id
+          });
+        });
       this.setState({
         edit: false,
         avail: (avail - quan) * 1
       });
     }
+  };
+
+  editQuan = e => {
+    e.preventDefault();
+    this.setState({
+      edit: true
+    });
   };
 
   handleClick = e => {
@@ -80,28 +108,43 @@ class OrderField extends Component {
   render() {
     var { avail, quan, none } = this.state;
     return (
-      <div className="order-bar">
+      <div className={this.state.edit ? "order-bar" : "order-bar-edit"}>
         <ToastContainer />
         <div className="farm-title">{this.props.farmName}</div>
         <div className="order-details">
           <h3>{this.props.name}</h3>
           <h3>{this.props.price}</h3>
           <h3>{this.props.unit}</h3>
-          <input
-            type="text"
-            name="quan"
-            value={quan}
-            onChange={this.onChange}
-            className="quan-input"
-          />
-          <div className="add-button" style={{ color: "white" }}>
-            <IoIosAddCircle
-              onClick={e => {
-                this.handleClick(e);
-              }}
-              size={32}
+          {this.state.edit ? (
+            <input
+              type="text"
+              name="quan"
+              value={quan}
+              onChange={this.onChange}
+              className="quan-input"
             />
-          </div>
+          ) : (
+            <h3>{quan}</h3>
+          )}
+          {this.state.edit ? (
+            <div className="add-button" style={{ color: "green" }}>
+              <IoIosAddCircle
+                onClick={e => {
+                  this.handleClick(e);
+                }}
+                size={32}
+              />
+            </div>
+          ) : (
+            <div className="add-button" style={{ color: "black" }}>
+              <FaEdit
+                onClick={e => {
+                  this.editQuan(e);
+                }}
+                size={32}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

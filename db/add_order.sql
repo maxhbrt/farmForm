@@ -5,5 +5,6 @@ UPDATE items
 SET avail = avail - $1 * 1
 WHERE item_id = $2;
 
-
+SELECT * FROM orders 
+WHERE item_id = $2 AND client_id = $3;
 

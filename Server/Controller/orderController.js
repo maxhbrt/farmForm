@@ -23,5 +23,11 @@ module.exports = {
     const { quan, item_id, client_id } = req.body
     const items = await db.add_order([quan, item_id, client_id])
     res.status(200).send(items)
+  },
+  editQuan: async (req, res, next) => {
+    const db = req.app.get("db")
+    const {quan, order_item_id, item_id} = req.body
+    const items = await db.edit_quan([quan, order_item_id, item_id])
+    res.status(200).send(items)
   }
 };

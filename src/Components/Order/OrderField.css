@@ -4,7 +4,7 @@
     border-bottom: solid;
     border-color: gray;
     padding-top: 5px;
-    background-color: green;
+    background-color: whitesmoke;
 }
 .farm-title{
     font-size: 20px;
@@ -41,3 +41,11 @@
 /* .none{
     display: none;
 } */
+.order-bar-edit{
+    width: 100vw;
+    height: 100px;
+    border-bottom: solid;
+    border-color: gray;
+    padding-top: 5px;
+    background-color: green;
+}
