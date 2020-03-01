@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import "./OrderField.css";
 import { IoIosAddCircle } from "react-icons/io";
 import axios from "axios";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class OrderField extends Component {
   constructor(props) {
@@ -13,10 +14,9 @@ class OrderField extends Component {
       avail: "",
       none: false
     };
+  }
+  componentDidMount() {
     this.setAvail();
-    console.log(this.props.avail);
-    console.log(this.state.quan);
-    console.log(this.props.clientInfo);
   }
 
   onChange = e => {
@@ -43,18 +43,19 @@ class OrderField extends Component {
   };
 
   addOrder = async e => {
-    console.log(quan);
+    console.log(this.props.avail);
     e.preventDefault();
     var item_id = this.props.item;
     var { unit, name, client_id } = this.props;
-    var { quan, avail } = this.state;
-
+    var { quan } = this.state;
+    var avail = this.state.avail.toString();
+    console.log(avail);
     if (!this.state.quan) {
       this.setState({
         edit: true
       });
       console.log(this.state.edit);
-    } else if (avail < quan) {
+    } else if (this.state.avail < this.state.quan) {
       toast(`There is only ${avail} ${unit} of ${name} left...`, {
         type: "error"
       });
@@ -80,6 +81,7 @@ class OrderField extends Component {
     var { avail, quan, none } = this.state;
     return (
       <div className="order-bar">
+        <ToastContainer />
         <div className="farm-title">{this.props.farmName}</div>
         <div className="order-details">
           <h3>{this.props.name}</h3>

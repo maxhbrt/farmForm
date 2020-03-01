@@ -46,8 +46,11 @@ class Register extends Component {
     const { email, farm_name, password} = this.state;
     return (
       <div className="register-back">
+        
         {!this.state.register ? (
           <form>
+
+          
             <h1>LOGIN</h1>
             <div>
               <h4>Email</h4>
@@ -126,6 +129,7 @@ class Register extends Component {
                 }
               />
             </div>
+            
             <input
               className="button"
               type="submit"
