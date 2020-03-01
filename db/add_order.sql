@@ -1,4 +1,4 @@
-INSERT INTO orders(quan, item_id, business_name)
+INSERT INTO orders(quan, item_id, client_id)
 VALUES($1, $2, $3);
 
 UPDATE items

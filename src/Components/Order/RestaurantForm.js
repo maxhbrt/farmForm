@@ -68,7 +68,7 @@ class RestaurantForm extends Component {
       const addedName = await axios.post("/api/add_client", { business_name })
       .then(response => {
         this.setState({
-          clientInfo: response.data
+          clientInfo: response.data[0].client_id
         })
       })
       console.log(this.state.clientInfo)
@@ -96,7 +96,7 @@ class RestaurantForm extends Component {
   };
 
   render() {
-    var { farms, inventory, business_name } = this.state;
+    var { farms, inventory, business_name, clientInfo } = this.state;
     var farmProps = [];
     const singleFarmSections = inventory.map(farm => {
       if (farmProps.includes(farm.farm_name)) {
@@ -104,7 +104,7 @@ class RestaurantForm extends Component {
         farmProps.push(farm.farm_name);
 
         return <SingleFarm 
-        
+        clientInfo={clientInfo}
         item_id={farm.item_id}
         business_name={business_name}
         farmName={farm.farm_name} 

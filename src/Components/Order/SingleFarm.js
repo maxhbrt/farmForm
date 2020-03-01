@@ -34,6 +34,7 @@ class SingleFarm extends Component {
         <>
       
         <OrderField
+        client_id={this.props.clientInfo}
           business_name={this.props.business_name}
           item={item.item_id *1}
           name={item.name}
