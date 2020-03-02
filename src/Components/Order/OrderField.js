@@ -15,6 +15,7 @@ class OrderField extends Component {
       avail: "",
       none: false,
       order_item_id: ""
+     
     };
   }
   componentDidMount() {
@@ -68,10 +69,12 @@ class OrderField extends Component {
 
     else if (this.state.order_item_id) {
       const { quan, order_item_id } = this.state;
+      var updatedQuan = this.state.lastUpdatedQuan
       const item_id = this.props.item;
       await axios.put("/api/edit_quan", { quan, order_item_id, item_id });
       this.setState({
         edit: false
+     
       })
     } 
     else {
@@ -88,6 +91,7 @@ class OrderField extends Component {
         });
       this.setState({
         edit: false,
+    
         avail: (avail - quan) * 1
       });
     }
