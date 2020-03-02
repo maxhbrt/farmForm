@@ -17,7 +17,8 @@ class OrderField extends Component {
       order_item_id: "",
       ogQuan: ""
     };
-  }
+  } 
+  
   componentDidMount() {
     this.setAvail();
   }
