@@ -21,5 +21,5 @@ CREATE TABLE orders(
     order_item_id SERIAL PRIMARY KEY,
     quan DECIMAL NOT NULL,
     item_id INTEGER REFERENCES items(item_id),
-    business_name TEXT NOT NULL
+    client_id INTEGER REFERENCES clients(client_id)
 );

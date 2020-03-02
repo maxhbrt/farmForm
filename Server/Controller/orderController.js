@@ -26,8 +26,9 @@ module.exports = {
   },
   editQuan: async (req, res, next) => {
     const db = req.app.get("db")
-    const {quan, order_item_id, item_id} = req.body
-    const items = await db.edit_quan([quan, order_item_id, item_id])
+    const {quan, order_item_id, item_id, ogQuan} = req.body
+    console.log(ogQuan)
+    const items = await db.edit_quan([quan, order_item_id, item_id, ogQuan])
     res.status(200).send(items)
   }
 };

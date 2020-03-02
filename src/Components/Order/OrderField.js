@@ -14,8 +14,8 @@ class OrderField extends Component {
       edit: true,
       avail: "",
       none: false,
-      order_item_id: ""
-     
+      order_item_id: "",
+      ogQuan: ""
     };
   }
   componentDidMount() {
@@ -53,31 +53,32 @@ class OrderField extends Component {
     var { quan } = this.state;
     var avail = this.state.avail.toString();
     console.log(avail);
-    
+
     if (!this.state.quan) {
       this.setState({
         edit: true
       });
       console.log(this.state.edit);
-    }
-
-    else if (this.state.avail < this.state.quan) {
+    } else if (this.state.avail < this.state.quan) {
       toast(`There is only ${avail} ${unit} of ${name} left...`, {
         type: "error"
       });
-    } 
-
-    else if (this.state.order_item_id) {
-      const { quan, order_item_id } = this.state;
-      var updatedQuan = this.state.lastUpdatedQuan
+    } else if (this.state.order_item_id) {
+      const { order_item_id, ogQuan } = this.state;
+      var quan = this.state.quan * 1;
+      console.log(ogQuan);
       const item_id = this.props.item;
-      await axios.put("/api/edit_quan", { quan, order_item_id, item_id });
+      await axios.put("/api/edit_quan", {
+        quan,
+        order_item_id,
+        item_id,
+        ogQuan
+      });
       this.setState({
-        edit: false
-     
-      })
-    } 
-    else {
+        edit: false,
+        ogQuan: this.state.quan * 1
+      });
+    } else {
       const addedOrder = await axios
         .post("/api/add_order", {
           quan,
@@ -91,7 +92,9 @@ class OrderField extends Component {
         });
       this.setState({
         edit: false,
-    
+
+        ogQuan: this.state.quan * 1,
+
         avail: (avail - quan) * 1
       });
     }
@@ -106,6 +109,7 @@ class OrderField extends Component {
 
   handleClick = e => {
     e.preventDefault();
+
     this.addOrder(e);
   };
 
