@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Review from "./Review";
 
 class OrderField extends Component {
   constructor(props) {
@@ -15,10 +16,12 @@ class OrderField extends Component {
       avail: "",
       none: false,
       order_item_id: "",
-      ogQuan: ""
+      order_item: "",
+      ogQuan: "",
+      review: this.props.review
     };
-  } 
-  
+  }
+
   componentDidMount() {
     this.setAvail();
   }
@@ -50,7 +53,7 @@ class OrderField extends Component {
     console.log(this.props.avail);
     e.preventDefault();
     var item_id = this.props.item;
-    var { unit, name, client_id } = this.props;
+    var { unit, name, client_id, user_id } = this.props;
     var { quan } = this.state;
     var avail = this.state.avail.toString();
     console.log(avail);
@@ -84,10 +87,13 @@ class OrderField extends Component {
         .post("/api/add_order", {
           quan,
           item_id,
-          client_id
+          client_id,
+          user_id
         })
         .then(response => {
+          console.log(response.data);
           this.setState({
+            order_item: response.data,
             order_item_id: response.data[0].order_item_id
           });
         });
@@ -103,6 +109,7 @@ class OrderField extends Component {
 
   editQuan = e => {
     e.preventDefault();
+
     this.setState({
       edit: true
     });
@@ -115,47 +122,53 @@ class OrderField extends Component {
   };
 
   render() {
-    var { avail, quan, none } = this.state;
+    var { avail, quan, none, order_item } = this.state;
     return (
-      <div className={this.state.edit ? "order-bar" : "order-bar-edit"}>
-        <ToastContainer />
-        <div className="farm-title">{this.props.farmName}</div>
-        <div className="order-details">
-          <h3>{this.props.name}</h3>
-          <h3>{this.props.price}</h3>
-          <h3>{this.props.unit}</h3>
-          {this.state.edit ? (
-            <input
-              type="text"
-              name="quan"
-              value={quan}
-              onChange={this.onChange}
-              className="quan-input"
-            />
-          ) : (
-            <h3>{quan}</h3>
-          )}
-          {this.state.edit ? (
-            <div className="add-button" style={{ color: "green" }}>
-              <IoIosAddCircle
-                onClick={e => {
-                  this.handleClick(e);
-                }}
-                size={32}
-              />
+      <>
+        {quan && this.props.review ? (
+          <Review orderItem={order_item} />
+        ) : !quan && this.props.review ? null : (
+          <div className={this.state.edit ? "order-bar" : "order-bar-edit"}>
+            <ToastContainer />
+            <div className="farm-title">{this.props.farmName}</div>
+            <div className="order-details">
+              <h3>{this.props.name}</h3>
+              <h3>{this.props.price}</h3>
+              <h3>{this.props.unit}</h3>
+              {this.state.edit ? (
+                <input
+                  type="text"
+                  name="quan"
+                  value={quan}
+                  onChange={this.onChange}
+                  className="quan-input"
+                />
+              ) : (
+                <h3>{quan}</h3>
+              )}
+              {this.state.edit ? (
+                <div className="add-button" style={{ color: "green" }}>
+                  <IoIosAddCircle
+                    onClick={e => {
+                      this.handleClick(e);
+                    }}
+                    size={32}
+                  />
+                </div>
+              ) : (
+                <div className="add-button" style={{ color: "black" }}>
+                  <FaEdit
+                    onClick={e => {
+                      this.editQuan(e);
+                    }}
+                    size={32}
+                  />
+                </div>
+              )}
             </div>
-          ) : (
-            <div className="add-button" style={{ color: "black" }}>
-              <FaEdit
-                onClick={e => {
-                  this.editQuan(e);
-                }}
-                size={32}
-              />
-            </div>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
+      </>
     );
   }
 }

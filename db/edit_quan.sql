@@ -9,5 +9,6 @@ CASE
     WHEN $1 < $4 THEN (avail + ($4 - $1))
 END
 WHERE item_id = $3;
+
 --SET avail = avail - $1 * 1
 --WHERE item_id = $3;

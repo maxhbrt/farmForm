@@ -2,21 +2,16 @@ import React, { Component } from "react";
 import axios from "axios";
 import OrderField from "./OrderField";
 import "./SingleFarm.css";
-import {FaCheckCircle} from "react-icons/fa";
+import { FaCheckCircle } from "react-icons/fa";
 
 class SingleFarm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      inventory: []
+      inventory: [],
+      review: this.props.review
     };
     this.getInventory();
-  }
-  componentWillMount()
-  {
-    setTimeout(() => {
-  console.log(this.state.inventory)
-    }, 2000);
   }
 
   getInventory = () => {
@@ -28,29 +23,30 @@ class SingleFarm extends Component {
   };
 
   render() {
-    const { inventory } = this.state;
+    const { inventory, review } = this.state;
     const singleOrderItem = inventory.map(item => {
       return (
         <>
-      
-        <OrderField
-        client_id={this.props.clientInfo}
-          business_name={this.props.business_name}
-          item={item.item_id *1}
-          name={item.name}
-          unit={item.unit}
-          price={item.price}
-          avail={item.avail}
-        />
+          <OrderField
+            review={this.props.review}
+            user_id={item.user_id}
+            client_id={this.props.clientInfo}
+            business_name={this.props.business_name}
+            item={item.item_id * 1}
+            name={item.name}
+            unit={item.unit}
+            price={item.price}
+            avail={item.avail}
+          />
         </>
       );
     });
 
     return (
       <>
-    <h1>{this.props.farmName}</h1>
-    <div className="single-farm">{singleOrderItem}</div>
-    </>
+        <h1>{this.props.farmName}</h1>
+        <div className="single-farm">{singleOrderItem}</div>
+      </>
     );
   }
 }

@@ -13,7 +13,8 @@ class RestaurantForm extends Component {
       farms: [],
       business_name: "",
       edit: true,
-      clientInfo: ""
+      clientInfo: "",
+      review: false
     };
   }
 
@@ -95,8 +96,14 @@ class RestaurantForm extends Component {
     });
   };
 
+  handleReview = e => {
+    this.setState({
+      review: true
+    })
+  }
+
   render() {
-    var { farms, inventory, business_name, clientInfo } = this.state;
+    var { farms, inventory, business_name, clientInfo, review } = this.state;
     var farmProps = [];
     const singleFarmSections = inventory.map(farm => {
       if (farmProps.includes(farm.farm_name)) {
@@ -104,6 +111,7 @@ class RestaurantForm extends Component {
         farmProps.push(farm.farm_name);
 
         return <SingleFarm 
+        review={review}
         clientInfo={clientInfo}
         item_id={farm.item_id}
         business_name={business_name}
@@ -150,7 +158,11 @@ class RestaurantForm extends Component {
               {(!this.state.clientInfo) ?
         null: <>{singleFarmSections}</>}
         <div className="footer">
-          <button>Review Order</button>
+          <button
+          onClick={e => {
+            this.handleReview(e);
+          }}
+          >Review Order</button>
         </div>
       </div>
     );
