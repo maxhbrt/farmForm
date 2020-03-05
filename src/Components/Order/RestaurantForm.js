@@ -97,6 +97,7 @@ class RestaurantForm extends Component {
   };
 
   handleReview = e => {
+    e.preventDefault()
     this.setState({
       review: true
     })

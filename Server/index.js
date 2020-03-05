@@ -24,7 +24,8 @@ const {
   addClient,
   editClient,
   addOrder,
-  editQuan
+  editQuan,
+  getReview
 } = require("./Controller/orderController");
 
 app.use(express.json());
@@ -51,6 +52,7 @@ app.post("/api/add_client", addClient);
 app.put("/api/edit_client", editClient);
 app.post("/api/add_order", addOrder);
 app.put("/api/edit_quan", editQuan);
+app.get("/api/get_review", getReview);
 
 app.post("/auth/register", register);
 app.post("/auth/login", login);
