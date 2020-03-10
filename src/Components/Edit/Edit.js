@@ -6,6 +6,7 @@ import { MdAddCircle } from "react-icons/md";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { syncLoader, PulseLoader } from "react-spinners";
+import ReviewOrder from "../Review/ReviewOrder";
 
 class Edit extends Component {
   constructor(props) {
@@ -15,7 +16,8 @@ class Edit extends Component {
       display: true,
       items: [],
       isLoading: true,
-      reset: false
+      reset: false,
+      reviewOrders: false
     };
   }
 
@@ -45,6 +47,7 @@ class Edit extends Component {
 
   getAllEdit = () => {
     axios.get("/api/get_edit").then(response => {
+      console.log(response);
       this.setState({ items: response.data });
       this.setState({
         reset: false
@@ -102,6 +105,11 @@ class Edit extends Component {
           </>
         )}
         <div className="footer">
+          <button
+            onClick={ () => {this.props.history.push("/revieworder")}}
+          >
+            View Orders
+          </button>
           <button className="reset" onClick={this.deleteAllEdit}>
             RESET
           </button>

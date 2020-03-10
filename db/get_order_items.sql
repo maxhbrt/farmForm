@@ -1,3 +1,3 @@
 SELECT * FROM items
-join users
+JOIN users
 ON (users.user_id = items.user_id);

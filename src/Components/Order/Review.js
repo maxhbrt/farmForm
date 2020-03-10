@@ -13,8 +13,8 @@ class Review extends Component {
     render(){
         return(
             <>
-        <div>{this.props.orderItem[0].name}</div>
-        <div>{this.props.orderItem[0].quan}</div>    
+        <div>{this.props.name}</div>
+        <div>{this.props.quan}</div>    
         </>
         )
     }

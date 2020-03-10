@@ -29,7 +29,7 @@ class RestaurantForm extends Component {
 
   editClient = async e => {
     e.preventDefault();
-    const client_id = this.state.clientInfo[0].client_id;
+    const client_id = this.state.clientInfo;
     
     const { business_name } = this.state;
     const edittedName = await axios.put("/api/edit_client", {business_name, client_id})
@@ -96,6 +96,13 @@ class RestaurantForm extends Component {
     });
   };
 
+  handleEditOrder = e => {
+    e.preventDefault()
+    this.setState({
+      review: false
+    })
+  }
+
   handleReview = e => {
     e.preventDefault()
     this.setState({
@@ -159,11 +166,18 @@ class RestaurantForm extends Component {
               {(!this.state.clientInfo) ?
         null: <>{singleFarmSections}</>}
         <div className="footer">
+          {this.state.review ? 
+          <button
+          onClick={e =>{
+            this.handleEditOrder(e)
+          }}
+          >Edit Order</button>
+          :
           <button
           onClick={e => {
             this.handleReview(e);
           }}
-          >Review Order</button>
+          >Review Order</button>}
         </div>
       </div>
     );

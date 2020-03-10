@@ -123,10 +123,11 @@ class OrderField extends Component {
 
   render() {
     var { avail, quan, none, order_item } = this.state;
+
     return (
       <>
         {quan && this.props.review ? (
-          <Review orderItem={order_item} />
+          <Review quan={quan} unit={this.props.unit} name={this.props.name} />
         ) : !quan && this.props.review ? null : (
           <div className={this.state.edit ? "order-bar" : "order-bar-edit"}>
             <ToastContainer />

@@ -21,7 +21,7 @@ class Register extends Component {
       password,
       farm_name
     });
-    
+
     // this.props.user(registeredUser.data);
     if (registeredUser) {
       this.props.history.push("/edit");
@@ -43,14 +43,11 @@ class Register extends Component {
   }
 
   render() {
-    const { email, farm_name, password} = this.state;
+    const { email, farm_name, password } = this.state;
     return (
       <div className="register-back">
-        
         {!this.state.register ? (
           <form>
-
-          
             <h1>LOGIN</h1>
             <div>
               <h4>Email</h4>
@@ -129,7 +126,7 @@ class Register extends Component {
                 }
               />
             </div>
-            
+
             <input
               className="button"
               type="submit"

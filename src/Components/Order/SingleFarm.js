@@ -16,12 +16,14 @@ class SingleFarm extends Component {
 
   getInventory = () => {
     for (let i = 0; i < this.props.inventory.length; i++) {
-      if (this.props.inventory[i].farm_name === this.props.farmName) {
+      if(this.props.inventory[i].avail <= 0){}
+      else if (this.props.inventory[i].farm_name === this.props.farmName) {
         this.state.inventory.push(this.props.inventory[i]);
       }
     }
-  };
+  }; 
 
+  
   render() {
     const { inventory, review } = this.state;
     const singleOrderItem = inventory.map(item => {
