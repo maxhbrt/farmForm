@@ -59,5 +59,11 @@ module.exports = {
     const { user_id } = req.session.user;
     const items = await db.clear_all_orders([user_id]);
     res.status(200).send(items);
+  },
+  removeFromOrders: async (req, res, next) => {
+    const db = req.app.get("db");
+    const { order_item_id } = req.body;
+    const items = await db.remove_from_orders([order_item_id])
+    res.status(200).send(items);
   }
 };

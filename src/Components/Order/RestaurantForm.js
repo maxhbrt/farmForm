@@ -14,13 +14,32 @@ class RestaurantForm extends Component {
       business_name: "",
       edit: true,
       clientInfo: "",
-      review: false
+      review: false,
+      promiseArray:[]
     };
   }
 
+// promises = (e) => {
+//   e.preventDefault()
+//   Promise.all([...this.state.promiseArray]).then(function(values){console.log(values)})
+// }
+
+
+
+
+
+
+
+
+// pushPromises = (promise) => {
+//   this.state.promiseArray.push(promise)
+//   console.log(this.state.promiseArray)
+// }
+
+
   componentDidMount = () => {
     this.getInventory();
-    console.log(this.state.clientInfo)
+    console.log(this.state.clientInfo);
   };
 
   onChange = e => {
@@ -30,32 +49,33 @@ class RestaurantForm extends Component {
   editClient = async e => {
     e.preventDefault();
     const client_id = this.state.clientInfo;
-    
+
     const { business_name } = this.state;
-    const edittedName = await axios.put("/api/edit_client", {business_name, client_id})
-    .then(response => {
-      this.setState({
-        clientInfo: response.data,
-        edit: false
-      })
-    })
+    const edittedName = await axios
+      .put("/api/edit_client", { business_name, client_id })
+      .then(response => {
+        this.setState({
+          clientInfo: response.data,
+          edit: false
+        });
+      });
   };
 
   handleEdit = e => {
-    e.preventDefault()
+    e.preventDefault();
     this.setState({
       edit: true
-    })
-  }
+    });
+  };
 
   handleCheckClick = e => {
     e.preventDefault();
-    if(!this.state.clientInfo){
-      this.addClient(e)
-    }else{
-      this.editClient(e)
+    if (!this.state.clientInfo) {
+      this.addClient(e);
+    } else {
+      this.editClient(e);
     }
-  }
+  };
 
   addClient = async e => {
     e.preventDefault();
@@ -66,13 +86,14 @@ class RestaurantForm extends Component {
         edit: true
       });
     } else {
-      const addedName = await axios.post("/api/add_client", { business_name })
-      .then(response => {
-        this.setState({
-          clientInfo: response.data[0].client_id
-        })
-      })
-      console.log(this.state.clientInfo)
+      const addedName = await axios
+        .post("/api/add_client", { business_name })
+        .then(response => {
+          this.setState({
+            clientInfo: response.data[0].client_id
+          });
+        });
+      console.log(this.state.clientInfo);
       this.setState({
         edit: false
       });
@@ -97,18 +118,18 @@ class RestaurantForm extends Component {
   };
 
   handleEditOrder = e => {
-    e.preventDefault()
+    e.preventDefault();
     this.setState({
       review: false
-    })
-  }
+    });
+  };
 
   handleReview = e => {
-    e.preventDefault()
+    e.preventDefault();
     this.setState({
       review: true
-    })
-  }
+    });
+  };
 
   render() {
     var { farms, inventory, business_name, clientInfo, review } = this.state;
@@ -118,13 +139,17 @@ class RestaurantForm extends Component {
       } else {
         farmProps.push(farm.farm_name);
 
-        return <SingleFarm 
-        review={review}
-        clientInfo={clientInfo}
-        item_id={farm.item_id}
-        business_name={business_name}
-        farmName={farm.farm_name} 
-        inventory={inventory} />;
+        return (
+          <SingleFarm
+          pushPromises={this.pushPromises}
+            review={review}
+            clientInfo={clientInfo}
+            item_id={farm.item_id}
+            business_name={business_name}
+            farmName={farm.farm_name}
+            inventory={inventory}
+          />
+        );
       }
     });
 
@@ -146,7 +171,7 @@ class RestaurantForm extends Component {
               <div style={{ color: "green" }}>
                 <FaCheckCircle
                   onClick={e => {
-                   this.handleCheckClick(e)
+                    this.handleCheckClick(e);
                   }}
                   size={35}
                 />
@@ -155,29 +180,35 @@ class RestaurantForm extends Component {
           ) : (
             <>
               <h3>{this.state.business_name}</h3>
-              <FaEdit 
-              onClick={e => {
-                this.handleEdit(e);
-              }}
+              <FaEdit
+                onClick={e => {
+                  this.handleEdit(e);
+                  
+                }}
               />
             </>
           )}
         </div>
-              {(!this.state.clientInfo) ?
-        null: <>{singleFarmSections}</>}
+        {!this.state.clientInfo ? null : <>{singleFarmSections}</>}
         <div className="footer">
-          {this.state.review ? 
-          <button
-          onClick={e =>{
-            this.handleEditOrder(e)
-          }}
-          >Edit Order</button>
-          :
-          <button
-          onClick={e => {
-            this.handleReview(e);
-          }}
-          >Review Order</button>}
+          {this.state.review ? (
+            <button
+              onClick={e => {
+                this.handleEditOrder(e);
+              }}
+            >
+              Edit Order
+            </button>
+          ) : (
+            <button
+              onClick={e => {
+                this.handleReview(e);
+              
+              }}
+            >
+              Review Order
+            </button>
+          )}
         </div>
       </div>
     );

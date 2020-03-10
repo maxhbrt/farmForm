@@ -50,6 +50,19 @@ class OrderField extends Component {
   };
 
   addOrder = async e => {
+    // e.preventDefault();
+    const { quan } = this.state;
+    const { item_id, client_id, user_id } = this.props;
+
+    const aPromise = await axios.post("/api/add_order", {
+      quan,
+      item_id,
+      client_id,
+      user_id
+    });
+  };
+
+  addOrder = async e => {
     console.log(this.props.avail);
     e.preventDefault();
     var item_id = this.props.item;
@@ -58,7 +71,7 @@ class OrderField extends Component {
     var avail = this.state.avail.toString();
     console.log(avail);
 
-    if (!this.state.quan) {
+    if (!this.state.quan || this.state.quan == 0) {
       this.setState({
         edit: true
       });

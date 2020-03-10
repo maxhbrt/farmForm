@@ -14,6 +14,7 @@ class Review extends Component {
         return(
             <>
         <div>{this.props.name}</div>
+        <button>Remove</button>
         <div>{this.props.quan}</div>    
         </>
         )

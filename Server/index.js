@@ -29,7 +29,8 @@ const {
   getOrders,
   fillOrder,
   unfillOrder,
-  clearAllOrders 
+  clearAllOrders,
+  removeFromOrders 
 } = require("./Controller/orderController");
 
 app.use(express.json());
@@ -61,6 +62,7 @@ app.get("/api/get_order", getOrders);
 app.put("/api/fill_order", fillOrder);
 app.put("/api/unfill_order", unfillOrder);
 app.delete("/api/clear_all_orders", clearAllOrders);
+app.delete("/api/remove_from_orders", removeFromOrders)
 
 app.post("/auth/register", register);
 app.post("/auth/login", login);

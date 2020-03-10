@@ -124,6 +124,7 @@ class Edit extends Component {
           >
             LOGOUT
           </button>
+
         </div>
       </div>
     );
