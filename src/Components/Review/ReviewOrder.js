@@ -45,7 +45,7 @@ class ReviewOrder extends Component {
         quan={order.quan}
         unit={order.unit}
         price={order.price}
-        
+        orders={this.state.orders}
         />;
       }
     });

@@ -27,8 +27,7 @@ const {
   editQuan,
   getReview,
   getOrders,
-  fillOrder,
-  unfillOrder,
+  completeOrder,
   clearAllOrders,
   removeFromOrders 
 } = require("./Controller/orderController");
@@ -59,10 +58,9 @@ app.post("/api/add_order", addOrder);
 app.put("/api/edit_quan", editQuan);
 app.get("/api/get_review", getReview);
 app.get("/api/get_order", getOrders);
-app.put("/api/fill_order", fillOrder);
-app.put("/api/unfill_order", unfillOrder);
 app.delete("/api/clear_all_orders", clearAllOrders);
 app.delete("/api/remove_from_orders", removeFromOrders)
+app.put("/api/complete_order", completeOrder)
 
 app.post("/auth/register", register);
 app.post("/auth/login", login);

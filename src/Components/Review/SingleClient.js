@@ -5,22 +5,40 @@ class SingleClient extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      clientName: ""
+      clientName: "",
+      orders: []
     };
+    this.getOrders()
+  }
+
+  componentDidMount(){
+    setTimeout(() => {
+    console.log(this.state.orders)
+    }, 2000);
+  }
+
+  getOrders = () => {
+    for(let i =0; i < this.props.orders.length; i++){
+      if(this.props.orders[i].business_name == this.props.businessName){
+        this.state.orders.push(this.props.orders[i])
+      }
+    }
   }
 
   render() {
+    const {orders }= this.state
+    const singleReviewItem = orders.map(item => {
+      return(
+        <ReviewFields
+        name={item.name}
+        />
+      )
+    })
     return (
       <div>
         <div>{this.props.businessName}</div>
-        <ReviewFields
-          order_item_id={this.props.order_item_id}
-          name={this.props.name}
-          quan={this.props.quan}
-          unit={this.props.unit}
-          price={this.props.price}
-          filled={this.props.filled}
-        />
+       
+    <div>{singleReviewItem}</div>
       </div>
     );
   }

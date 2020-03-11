@@ -19,10 +19,13 @@ class OrderField extends Component {
       order_item: "",
       ogQuan: "",
       review: this.props.review
+   
     };
   }
 
+
   componentDidMount() {
+
     this.setAvail();
   }
 

@@ -42,18 +42,7 @@ module.exports = {
     const items = await db.get_orders([user_id]);
     res.status(200).send(items);
   },
-  fillOrder: async (req, res, next) => {
-    const db = req.app.get("db");
-    const { order_item_id } = req.body;
-    const items = await db.fill_order([order_item_id]);
-    res.status(200).send(items);
-  },
-  unfillOrder: async (req, res, next) => {
-    const db = req.app.get("db");
-    const { order_item_id } = req.body;
-    const items = await db.unfill_order([order_item_id]);
-    res.status(200).send(items);
-  },
+
   clearAllOrders: async (req, res, next) => {
     const db = req.app.get("db");
     const { user_id } = req.session.user;
@@ -63,7 +52,14 @@ module.exports = {
   removeFromOrders: async (req, res, next) => {
     const db = req.app.get("db");
     const { order_item_id } = req.body;
-    const items = await db.remove_from_orders([order_item_id])
+    const items = await db.remove_from_orders([order_item_id]);
     res.status(200).send(items);
+  },
+  completeOrder: async (req, res, next) => {
+    const db = req.app.get("db");
+    const {clientInfo} = req.body
+    
+    const items = await db.complete_order([clientInfo])
+    res.status(200).send(items)
   }
 };

@@ -15,27 +15,21 @@ class RestaurantForm extends Component {
       edit: true,
       clientInfo: "",
       review: false,
-      promiseArray:[]
+      promiseArray: []
     };
   }
 
-// promises = (e) => {
-//   e.preventDefault()
-//   Promise.all([...this.state.promiseArray]).then(function(values){console.log(values)})
-// }
+  // promises = e => {
+  //   e.preventDefault();
+  //   Promise.all([...this.state.promiseArray]).then(function(values) {
+  //     console.log(values);
+  //   });
+  // };
 
-
-
-
-
-
-
-
-// pushPromises = (promise) => {
-//   this.state.promiseArray.push(promise)
-//   console.log(this.state.promiseArray)
-// }
-
+  // pushPromises = promise => {
+  //   this.state.promiseArray.push(promise);
+  //   console.log(this.state.promiseArray);
+  // };
 
   componentDidMount = () => {
     this.getInventory();
@@ -100,6 +94,13 @@ class RestaurantForm extends Component {
     }
   };
 
+  placeOrder = async e => {
+    console.log(this.state.clientInfo)
+    e.preventDefault()
+    const {clientInfo} = this.state
+    await axios.put("/api/complete_order", {clientInfo})
+  }
+
   getInventory = () => {
     axios.get("/api/get_order_items").then(response => {
       this.setState(
@@ -141,7 +142,8 @@ class RestaurantForm extends Component {
 
         return (
           <SingleFarm
-          pushPromises={this.pushPromises}
+            sendOrder={this.state.sendOrder}
+            pushPromises={this.pushPromises}
             review={review}
             clientInfo={clientInfo}
             item_id={farm.item_id}
@@ -183,7 +185,6 @@ class RestaurantForm extends Component {
               <FaEdit
                 onClick={e => {
                   this.handleEdit(e);
-                  
                 }}
               />
             </>
@@ -192,6 +193,12 @@ class RestaurantForm extends Component {
         {!this.state.clientInfo ? null : <>{singleFarmSections}</>}
         <div className="footer">
           {this.state.review ? (
+            <>
+            <button
+            onClick={e => {
+              this.placeOrder(e)
+            }}
+            >Place Order</button>
             <button
               onClick={e => {
                 this.handleEditOrder(e);
@@ -199,11 +206,11 @@ class RestaurantForm extends Component {
             >
               Edit Order
             </button>
+            </>
           ) : (
             <button
               onClick={e => {
                 this.handleReview(e);
-              
               }}
             >
               Review Order
