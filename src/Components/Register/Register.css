@@ -1,4 +1,9 @@
 .register-back{
+	background:linear-gradient(rgba(0, 0, 0, 0.612), rgba(0, 0, 0, 0.625)), url('./landing-pic (1).jpg');
+	background-repeat:no-repeat;
+	background-size:cover;
+	background-position:center;
+    background-attachment: fixed;
     height: 100vh;
     width: 100vw;
     display: flex;
@@ -9,20 +14,34 @@
 	align-content: stretch;
 }
 form{
+	border-radius: 10px;
+	background-color: rgba(128, 128, 128, 0.071);
     font-family: 'Alata', sans-serif;
-
+color: rgb(99, 230, 191);
     display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: space-around;
 	align-items: center;
 	align-content: stretch;
-    width: 100%;
-    height: 350px;
+    width: 90%;
+    height: 60%;
+}
+input{
+	border-bottom-style: solid;
+	border-bottom-color: rgb(99, 230, 191);
+	background: transparent;
+
+	background-color: none;
+	color: rgb(99, 230, 191);
+}
+h4{
+	font-size: large;
+	margin-bottom: 10px;
 }
 h6{
     
-    color: blue;
+    color: rgb(99, 230, 191);
 }
 h6:hover{
     cursor: pointer;
@@ -33,12 +52,12 @@ h1{
 .button{
     width: 20%;
     box-shadow: 0px 10px 14px -7px #276873;
-	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
-	background-color:#599bb3;
+	/* background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%); */
+	background-color:rgb(99, 230, 191);
 	border-radius:8px;
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
+	color:black;
 	font-family:Arial;
 	font-size:15px;
 	font-weight:bold;

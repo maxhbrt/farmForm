@@ -4,6 +4,9 @@ const app = express();
 const session = require("express-session");
 const massive = require("massive");
 
+
+
+
 const {
   register,
   logout,
@@ -32,6 +35,10 @@ const {
   removeFromOrders 
 } = require("./Controller/orderController");
 
+const {
+  uploadImageToS3
+} = require("./Controller/imageController")
+
 app.use(express.json());
 const { CONNECTION_STRING, SESSION_SECRET, SERVER_PORT } = process.env;
 app.use(
@@ -50,6 +57,8 @@ app.post("/api/post_edit", addToEdit);
 app.delete("/api/delete_from_edit/:item_id", deleteFromEdit);
 app.delete("/api/delete_all_edit", deleteAllEdit);
 app.put("/api/edit_edit", editEdit);
+
+app.post("/api/uploadImage/:item_id", uploadImageToS3)
 
 app.get("/api/get_order_items", getOrderItems);
 app.post("/api/add_client", addClient);

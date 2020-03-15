@@ -1,5 +1,6 @@
 .edit-bar{
-    width: 100%;
+    background-color: rgba(128, 128, 128, 0.146);
+    width: 95%;
     height: 20vh;
     display: flex;
 	flex-direction: row;
@@ -7,8 +8,15 @@
 	justify-content: space-between;
 	align-items: center;
     align-content: stretch;
-    border-bottom: solid;
-    border-color: gray;
+    /* border-width: 2px;
+    border-style: solid; */
+    /* border-color: rgb(99, 230, 191); */
+    color:rgb(99, 230, 191) ;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+html{
+    background-color: black;
 }
 .left{
     display: flex;
@@ -75,5 +83,17 @@ input{
     align-content: stretch;
     border-bottom: solid;
     border-color: gray;
-    background: rgba(175, 76, 76, 0.3)
+    background: rgba(128, 128, 128, 0.427)
+}
+h1{
+    color: white;
+    /* color: rgb(246, 208, 177); */
+    margin-bottom: 5px;
+}
+.fileContainer{
+   background-color: black;
+}
+img{
+    width: 50px;
+    height: 50px;
 }

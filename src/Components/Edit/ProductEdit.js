@@ -4,6 +4,7 @@ import { TiDelete } from "react-icons/ti";
 import axios from "axios";
 import { GiSaveArrow } from "react-icons/gi";
 import { FaEdit } from "react-icons/fa";
+import ImageUploader from "react-images-upload";
 
 class ProductEdit extends Component {
   constructor(props) {
@@ -15,20 +16,21 @@ class ProductEdit extends Component {
       avail: "" * 1,
       edit: true,
       item: "" * 1,
-      delete: false
+      delete: false,
+      picture: [],
+      image: ""
     };
+    this.onDrop = this.onDrop.bind(this);
   }
 
   componentWillMount = () => {
-    setTimeout(() => {
-      console.log(this.state.item);
-    }, 2000);
     this.mapProps();
   };
 
   mapProps = () => {
     this.setState(
       {
+        image: this.props.image,
         item: this.props.item,
         name: this.props.name,
         unit: this.props.unit,
@@ -52,7 +54,6 @@ class ProductEdit extends Component {
         }
       }
     );
-    console.log(this.state.item);
   };
 
   editMap = () => {
@@ -61,8 +62,6 @@ class ProductEdit extends Component {
         edit: false
       });
     }
-    console.log(this.state.edit);
-    console.log(this.state.name);
   };
 
   onChange = e => {
@@ -103,8 +102,6 @@ class ProductEdit extends Component {
             item: response.data[0].item_id
           });
         });
-
-      console.log(this.state.item);
     }
   };
 
@@ -117,7 +114,7 @@ class ProductEdit extends Component {
       });
     } else {
       const item_id = this.state.item;
-      console.log(item_id);
+
       const deletedEdit = await axios.delete(
         `/api/delete_from_edit/${item_id}/`
       );
@@ -160,6 +157,32 @@ class ProductEdit extends Component {
       });
   };
 
+  onDrop(picture) {
+    this.setState({
+      picture: this.state.picture.concat(picture)
+    });
+  }
+
+  uploadImage = e => {
+    let item_id = this.state.item;
+    let uploadPromises = this.state.picture.map(image => {
+      let data = new FormData();
+      data.append("image", image, image.name);
+      return axios.post(`/api/uploadImage/${item_id}`, data);
+    });
+    axios
+      .all(uploadPromises)
+      .then(results => {
+        this.setState(
+          {
+            image: results.data
+          },
+          () => {}
+        );
+      })
+      .catch(e => {});
+  };
+
   render() {
     const { name, unit, price, avail } = this.state;
     return (
@@ -168,16 +191,39 @@ class ProductEdit extends Component {
           <div className={this.state.edit ? "edit" : "edit-bar"}>
             <div className="left">
               <div className="fields">
-                <h1>Product</h1>
                 {this.state.edit ? (
-                  <input
-                    type="text"
-                    name="name"
-                    value={name}
-                    onChange={this.onChange}
-                  ></input>
+                  <>
+                    <ImageUploader
+                      withIcon={true}
+                      withPreview={true}
+                      onChange={this.onDrop}
+                      buttonText="Select Image"
+                      imgExtension={[".jpg", ".png", ".jpeg"]}
+                      maxFileSize={5242880}
+                    />
+                    <div>
+                      {/* <button
+                          onClick={e => {
+                            {
+                              this.uploadImage(e)
+                              
+                            }
+                          }}
+                          
+                          >add photo</button> */}
+                    </div>
+                    <input
+                      type="text"
+                      name="name"
+                      value={name}
+                      onChange={this.onChange}
+                    ></input>
+                  </>
                 ) : (
-                  <h2>{this.state.name}</h2>
+                  <>
+                    <h1>{this.state.name}</h1>
+                    <img src={this.state.image} />
+                  </>
                 )}
               </div>
               <div className="fields">
@@ -232,6 +278,8 @@ class ProductEdit extends Component {
                   <GiSaveArrow
                     onClick={e => {
                       {
+                        this.uploadImage(e);
+                        this.uploadImage();
                         this.state.item ? this.editEdit(e) : this.saveAndAdd(e);
                       }
                     }}
@@ -240,16 +288,18 @@ class ProductEdit extends Component {
                 </div>
               ) : null}
               {!this.state.edit ? (
-                <div style={{ color: "black" }}>
+                <div style={{ color: "rgb(99, 230, 191)" }}>
                   <FaEdit onClick={this.trueInput} size={30} />
                 </div>
               ) : null}
-              <TiDelete
-                onClick={e => {
-                  this.deleteFromEdit(e);
-                }}
-                size={40}
-              />
+              <div style={{ color: "rgb(206, 71, 96)" }}>
+                <TiDelete
+                  onClick={e => {
+                    this.deleteFromEdit(e);
+                  }}
+                  size={40}
+                />
+              </div>
             </div>
           </div>
         ) : null}
