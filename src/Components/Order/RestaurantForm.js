@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import SingleFarm from "./SingleFarm";
 import "./RestaurantForm.css";
+import {Link} from "react-router-dom";
 import { FaCheckCircle, FaThemeisle } from "react-icons/fa";
 import { FaEdit } from "react-icons/fa";
 
@@ -15,54 +16,42 @@ class RestaurantForm extends Component {
       edit: true,
       clientInfo: "",
       review: false,
-      promiseArray: []
+      promiseArray: [],
     };
   }
-
-  // promises = e => {
-  //   e.preventDefault();
-  //   Promise.all([...this.state.promiseArray]).then(function(values) {
-  //     console.log(values);
-  //   });
-  // };
-
-  // pushPromises = promise => {
-  //   this.state.promiseArray.push(promise);
-  //   console.log(this.state.promiseArray);
-  // };
 
   componentDidMount = () => {
     this.getInventory();
     console.log(this.state.clientInfo);
   };
 
-  onChange = e => {
+  onChange = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  editClient = async e => {
+  editClient = async (e) => {
     e.preventDefault();
     const client_id = this.state.clientInfo;
 
     const { business_name } = this.state;
     const edittedName = await axios
       .put("/api/edit_client", { business_name, client_id })
-      .then(response => {
+      .then((response) => {
         this.setState({
           clientInfo: response.data,
-          edit: false
+          edit: false,
         });
       });
   };
 
-  handleEdit = e => {
+  handleEdit = (e) => {
     e.preventDefault();
     this.setState({
-      edit: true
+      edit: true,
     });
   };
 
-  handleCheckClick = e => {
+  handleCheckClick = (e) => {
     e.preventDefault();
     if (!this.state.clientInfo) {
       this.addClient(e);
@@ -71,41 +60,41 @@ class RestaurantForm extends Component {
     }
   };
 
-  addClient = async e => {
+  addClient = async (e) => {
     e.preventDefault();
 
     var { business_name } = this.state;
     if (business_name === "") {
       this.setState({
-        edit: true
+        edit: true,
       });
     } else {
       const addedName = await axios
         .post("/api/add_client", { business_name })
-        .then(response => {
+        .then((response) => {
           this.setState({
-            clientInfo: response.data[0].client_id
+            clientInfo: response.data[0].client_id,
           });
         });
       console.log(this.state.clientInfo);
       this.setState({
-        edit: false
+        edit: false,
       });
     }
   };
 
-  placeOrder = async e => {
-    console.log(this.state.clientInfo)
-    e.preventDefault()
-    const {clientInfo} = this.state
-    await axios.put("/api/complete_order", {clientInfo})
-  }
+  placeOrder = async (e) => {
+    console.log(this.state.clientInfo);
+    e.preventDefault();
+    const { clientInfo } = this.state;
+    await axios.put("/api/complete_order", { clientInfo });
+  };
 
   getInventory = () => {
-    axios.get("/api/get_order_items").then(response => {
+    axios.get("/api/get_order_items").then((response) => {
       this.setState(
         {
-          inventory: response.data
+          inventory: response.data,
         },
         () => {
           for (let i = 0; i < this.state.inventory.length; i++) {
@@ -118,32 +107,31 @@ class RestaurantForm extends Component {
     });
   };
 
-  handleEditOrder = e => {
+  handleEditOrder = (e) => {
     e.preventDefault();
     this.setState({
-      review: false
+      review: false,
     });
   };
 
-  handleReview = e => {
+  handleReview = (e) => {
     e.preventDefault();
     this.setState({
-      review: true
+      review: true,
     });
   };
 
   render() {
     var { farms, inventory, business_name, clientInfo, review } = this.state;
     var farmProps = [];
-    const singleFarmSections = inventory.map(farm => {
+    const singleFarmSections = inventory.map((farm) => {
       if (farmProps.includes(farm.farm_name)) {
       } else {
         farmProps.push(farm.farm_name);
 
         return (
           <SingleFarm
-            sendOrder={this.state.sendOrder}
-            pushPromises={this.pushPromises}
+   
             review={review}
             clientInfo={clientInfo}
             item_id={farm.item_id}
@@ -172,7 +160,7 @@ class RestaurantForm extends Component {
               />
               <div style={{ color: "green" }}>
                 <FaCheckCircle
-                  onClick={e => {
+                  onClick={(e) => {
                     this.handleCheckClick(e);
                   }}
                   size={35}
@@ -183,7 +171,7 @@ class RestaurantForm extends Component {
             <>
               <h3>{this.state.business_name}</h3>
               <FaEdit
-                onClick={e => {
+                onClick={(e) => {
                   this.handleEdit(e);
                 }}
               />
@@ -192,30 +180,11 @@ class RestaurantForm extends Component {
         </div>
         {!this.state.clientInfo ? null : <>{singleFarmSections}</>}
         <div className="footer">
-          {this.state.review ? (
-            <>
-            <button
-            onClick={e => {
-              this.placeOrder(e)
-            }}
-            >Place Order</button>
-            <button
-              onClick={e => {
-                this.handleEditOrder(e);
-              }}
-            >
-              Edit Order
-            </button>
-            </>
-          ) : (
-            <button
-              onClick={e => {
-                this.handleReview(e);
-              }}
-            >
-              Review Order
-            </button>
-          )}
+<Link to="/revieworder">
+     <button
+     >Review Order</button>
+     </Link>
+
         </div>
       </div>
     );

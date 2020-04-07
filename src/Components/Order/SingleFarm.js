@@ -11,7 +11,10 @@ class SingleFarm extends Component {
       inventory: [],
       review: this.props.review
     };
-    this.getInventory();
+    // this.getInventory();
+  }
+  componentDidMount(){
+    this.getInventory()
   }
 
   getInventory = () => {
@@ -30,8 +33,8 @@ class SingleFarm extends Component {
       return (
         <>
           <OrderField
-          sendOrder={this.props.sendOrder}
-            review={this.props.review}
+    
+            review={review}
             user_id={item.user_id}
             client_id={this.props.clientInfo}
             business_name={this.props.business_name}

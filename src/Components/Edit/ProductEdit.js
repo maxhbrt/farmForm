@@ -194,60 +194,68 @@ class ProductEdit extends Component {
                 {this.state.edit ? (
                   <>
                     <ImageUploader
-                      withIcon={true}
+                      singleImage={true}
+                      withLabel={false}
+                      withIcon={false}
                       withPreview={true}
                       onChange={this.onDrop}
                       buttonText="Select Image"
                       imgExtension={[".jpg", ".png", ".jpeg"]}
                       maxFileSize={5242880}
                     />
-                    <div>
-                      {/* <button
-                          onClick={e => {
-                            {
-                              this.uploadImage(e)
-                              
-                            }
-                          }}
-                          
-                          >add photo</button> */}
-                    </div>
-                    <input
-                      type="text"
-                      name="name"
-                      value={name}
-                      onChange={this.onChange}
-                    ></input>
+
+          
                   </>
                 ) : (
                   <>
-                    <h1>{this.state.name}</h1>
                     <img src={this.state.image} />
                   </>
                 )}
               </div>
+            </div>
+            <div className={!this.state.edit ? "right" : "right-edit"}>
               <div className="fields">
-                <h1>Unit</h1>
                 {!this.state.edit ? (
-                  <h2>{this.state.unit}</h2>
+                  <>
+                    <h1 className="title">{this.state.name}</h1>
+                    <h2>
+                      ${this.state.price} per {this.state.unit}
+                    </h2>
+                  </>
                 ) : (
+                  <>
+                  <div className="fields">
                   <input
+                  className="price-edit"
+                  placeholder="Name"
+                  type="text"
+                  name="name"
+                  value={name}
+                  onChange={this.onChange}
+                ></input>
+                  
+                </div>
+                
+                <div className="fields">
+                  <input
+                    className="price"
+                    placeholder="Unit"
                     type="text"
                     name="unit"
                     value={unit}
                     onChange={this.onChange}
                   ></input>
+                  </div>
+                  </>
                 )}
               </div>
-            </div>
-            <div className="right">
               <div className="fields">
-                <h1>Price Per Unit</h1>
                 <div>
                   {!this.state.edit ? (
-                    <h2>${this.state.price}</h2>
+                    <></>
                   ) : (
                     <input
+                      placeholder="Price Per Unit"
                       className="price"
                       type="text"
                       name="price"
@@ -258,11 +266,14 @@ class ProductEdit extends Component {
                 </div>
               </div>
               <div className="fields">
-                <h1>Available</h1>
                 {!this.state.edit ? (
-                  <h2>{this.state.avail}</h2>
+                  <>
+                    <h3 className="avail">Available</h3>
+                    <h2>{this.state.avail}</h2>
+                  </>
                 ) : (
                   <input
+                    placeholder="Available Units"
                     className="price"
                     type="text"
                     name="avail"
@@ -272,9 +283,9 @@ class ProductEdit extends Component {
                 )}
               </div>
             </div>
-            <div style={{ color: "red" }} className="trash">
+            <div style={{ color: "red" }} className={!this.state.edit ?"trash" : "trash-edit"}>
               {this.state.edit ? (
-                <div style={{ color: "green" }} className="add">
+                <div style={{ color: "green" }} className="add-upload">
                   <GiSaveArrow
                     onClick={e => {
                       {

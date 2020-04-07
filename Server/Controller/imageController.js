@@ -41,10 +41,10 @@ module.exports = {
     uploadImageToS3: (req, res) => {
         uploadToS3(req,res)
         .then(downloadURL => {
-            console.log(downloadURL)
+            
             const db = req.app.get("db")
             const {item_id} = req.params
-console.log(item_id)
+
              const item = db.upload_image([downloadURL, item_id])
              
         res.status(200).send(item)})
