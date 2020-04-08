@@ -4,7 +4,6 @@ import { IoIosAddCircle } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Review from "./Review";
 import { OrderContext } from "../../Context/OrderContext";
 
 function OrderField(props) {
@@ -27,6 +26,8 @@ function OrderField(props) {
       setQuan("");
     }
     const order = {
+      name: props.name,
+      price: props.price,
       item_id: props.item,
       quan: quan,
       client: props.client_id,
@@ -36,12 +37,11 @@ function OrderField(props) {
   };
 
   const removeFromOrder = (e) => {
-    for (let i = 0; i < order.length; i++) {
-      if (order[i].item_id === props.item) {
-       delete order[i]
-      }
-    }
-    
+    setOrder(
+      order.filter(function (item) {
+        return item.item_id !== props.item;
+      })
+    );
   };
 
   const handleQuan = (e) => {
@@ -82,7 +82,7 @@ function OrderField(props) {
               <FaEdit
                 onClick={() => {
                   removeFromOrder();
-                  setEdit(true)
+                  setEdit(true);
                 }}
               />
             </div>

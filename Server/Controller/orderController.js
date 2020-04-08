@@ -19,8 +19,9 @@ module.exports = {
   },
   addOrder: async (req, res, next) => {
     const db = req.app.get("db");
-    const { item_id, quan, client_name } = req.body;
-    const items = await db.add_unnest([item_id, quan, client_name]);
+    const { item_id, quan, client_id } = req.body;
+    const items = await db.add_unnest([item_id, quan, client_id]);
+console.log(req.body)
     res.status(200).send(items);
   },
   editQuan: async (req, res, next) => {
