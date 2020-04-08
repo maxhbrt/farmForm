@@ -5,6 +5,7 @@ import axios from "axios";
 import { GiSaveArrow } from "react-icons/gi";
 import { FaEdit } from "react-icons/fa";
 import ImageUploader from "react-images-upload";
+import { syncLoader, PulseLoader } from "react-spinners";
 
 class ProductEdit extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class ProductEdit extends Component {
       item: "" * 1,
       delete: false,
       picture: [],
-      image: ""
+      image: "",
+      readyForImage: false
     };
     this.onDrop = this.onDrop.bind(this);
   }
@@ -135,7 +137,10 @@ class ProductEdit extends Component {
         edit: true
       });
     } else {
-      this.changeInput();
+      this.setState({
+        readyForImage:true
+      })
+      // this.changeInput();
     }
   };
 
@@ -189,10 +194,12 @@ class ProductEdit extends Component {
       <>
         {!this.state.delete ? (
           <div className={this.state.edit ? "edit" : "edit-bar"}>
-            <div className="left">
+            <div className={this.state.readyForImage ? "right" : ''}>
               <div className="fields">
                 {this.state.edit ? (
                   <>
+                    {this.state.readyForImage ?(
+                    
                     <ImageUploader
                       singleImage={true}
                       withLabel={false}
@@ -202,18 +209,24 @@ class ProductEdit extends Component {
                       buttonText="Select Image"
                       imgExtension={[".jpg", ".png", ".jpeg"]}
                       maxFileSize={5242880}
-                    />
-
+                      
+                      />
+                      ) :( null)}
+                  
           
                   </>
                 ) : (
                   <>
+                  {!this.state.image ? <PulseLoader/> :
                     <img src={this.state.image} />
+                }
                   </>
                 )}
               </div>
             </div>
-            <div className={!this.state.edit ? "right" : "right-edit"}>
+            <div 
+            className={!this.state.edit ? "right" : "right-edit"}
+            >
               <div className="fields">
                 {!this.state.edit ? (
                   <>
