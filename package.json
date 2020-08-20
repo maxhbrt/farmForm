@@ -10,7 +10,7 @@
     "aos": "^2.3.4",
     "aws-sdk": "^2.639.0",
     "axios": "^0.19.2",
-    "bcrypt": "^3.0.7",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "http-proxy-middleware": "^0.20.0",
